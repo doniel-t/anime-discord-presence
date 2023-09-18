@@ -1,0 +1,32 @@
+{
+    "manifest_version": 3,
+    "name": "Aniwave Discord Presence",
+    "version": "1.0",
+    "description": "Updates your Discord presence to show what you're watching on Aniwave.",
+    "icons": {
+      "16": "assets/16.png",
+      "48": "assets/32.png"
+    },
+    "background": {
+      "service_worker": "src/background.js"
+    },
+    "permissions": [
+      "activeTab",
+      "http://localhost/*",
+      "https://aniwave.to/*",
+      "https://stackoverflow.com/*"
+    ],
+    "action" : {
+      "default_popup": "src/index.html",
+      "default_icon": {
+        "16": "assets/16.png",
+        "48": "assets/32.png"
+      }
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://aniwave.to/watch/*", "https://stackoverflow.com/*"],
+        "js": ["src/fetchAnimeName.js"]
+      }
+    ]
+}
