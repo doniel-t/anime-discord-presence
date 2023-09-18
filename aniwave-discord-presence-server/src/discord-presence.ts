@@ -2,11 +2,11 @@ import { Client } from 'discord-rpc';
 
 const rpc = new Client({ transport: 'ipc' });
 
-function setPresenceAndScheduleReset({animeTitle, episodeNumber, episodeURL}) {
+function setPresenceAndScheduleReset({animeTitle, episodeNumber, episodeURL, imageURL}) {
   console.log('Updating Discord presence...');
   rpc.setActivity({
     state: `${animeTitle} - EP${episodeNumber}`,
-    largeImageKey: 'aniwave_image',
+    largeImageKey: imageURL,
     startTimestamp: new Date(),
     buttons: [
       { label: 'Watch Along!', url: episodeURL }

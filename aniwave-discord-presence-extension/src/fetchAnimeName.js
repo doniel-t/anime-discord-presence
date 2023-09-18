@@ -9,10 +9,22 @@ const queryForAnimeName = () => {
     return animeName;
 }
 
+const queryAnimePoster = () => {
+    try {
+        const classNames = "poster";
+        const poster = document.getElementsByClassName(classNames)[0]?.children[0]?.firstChild;
+        const animePoster = poster.src ?? "aniwave_image";
+        return animePoster;
+    }catch{
+        return "aniwave_image";
+    }
+}
+
 const sendAnimeName = (animeName) => {
     //url structure: aniwave.to/watch/anime-name<hash>/ep-episode-number
     const episodeNumber = url.split("/").at(-1).split("-").at(-1);
-    const animeDataObj = { animeTitle: animeName, episodeNumber: episodeNumber, episodeURL: url };
+    const imageURL = queryAnimePoster();
+    const animeDataObj = { animeTitle: animeName, episodeNumber: episodeNumber, episodeURL: url, imageURL: imageURL };
     const animeDataJSON = JSON.stringify(animeDataObj);
     console.log(animeDataJSON);
     fetch(`http://localhost:${LOCAL_PORT}/animeData`, {
