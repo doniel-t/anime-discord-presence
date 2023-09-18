@@ -2,12 +2,15 @@ import { Client } from 'discord-rpc';
 
 const rpc = new Client({ transport: 'ipc' });
 
-function setPresenceAndScheduleReset(animeTitle: string) {
+function setPresenceAndScheduleReset(animeTitle: string, episodeNumber: string, episodeURL: string) {
   console.log('Updating Discord presence...');
   rpc.setActivity({
-    state: animeTitle,
+    state: `${animeTitle} - EP${episodeNumber}`,
     largeImageKey: 'kobeni_gang',
     startTimestamp: new Date(),
+    buttons: [
+      { label: 'Watch Along!', url: episodeURL }
+    ]
   });
 
   // Schedule a reset after 23 minutes (20 minutes * 60 seconds * 1000 milliseconds)
