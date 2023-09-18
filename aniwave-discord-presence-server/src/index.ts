@@ -12,11 +12,17 @@ app.use(cors());
 
 const port = 42069;
 
+type AnimeRequestBody = {
+  animeTitle: string;
+  episodeNumber: string;
+  episodeURL: string;
+};
+
 app.post("/animeData", (req: Request, res: Response) => {
-  const { animeTitle, episodeNumber, episodeURL } = req.body;
-  console.log(`${animeTitle} - ${episodeNumber}`);
-  setPresenceAndScheduleReset(animeTitle, episodeNumber, episodeURL);
-  res.json({ message: `Got ${animeTitle}!}`, status: 200 });
+  const animeData: AnimeRequestBody = req.body;
+  console.log(`${animeData.animeTitle} - ${animeData.episodeNumber}`);
+  setPresenceAndScheduleReset(animeData);
+  res.json({ message: `Got ${animeData.animeTitle}!}`, status: 200 });
 });
 
 app.listen(port, () => {

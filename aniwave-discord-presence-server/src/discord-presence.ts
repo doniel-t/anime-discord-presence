@@ -2,7 +2,7 @@ import { Client } from 'discord-rpc';
 
 const rpc = new Client({ transport: 'ipc' });
 
-function setPresenceAndScheduleReset(animeTitle: string, episodeNumber: string, episodeURL: string) {
+function setPresenceAndScheduleReset({animeTitle, episodeNumber, episodeURL}) {
   console.log('Updating Discord presence...');
   rpc.setActivity({
     state: `${animeTitle} - EP${episodeNumber}`,

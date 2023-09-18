@@ -10,11 +10,14 @@ const queryForAnimeName = () => {
 }
 
 const sendAnimeName = (animeName) => {
-    const episodeNumber = url.at(-1);
-    console.log(JSON.stringify({ animeTitle: animeName, episodeNumber: episodeNumber, episodeURL: url }));
+    //url structure: aniwave.to/watch/anime-name<hash>/ep-episode-number
+    const episodeNumber = url.split("/").at(-1).split("-").at(-1);
+    const animeDataObj = { animeTitle: animeName, episodeNumber: episodeNumber, episodeURL: url };
+    const animeDataJSON = JSON.stringify(animeDataObj);
+    console.log(animeDataJSON);
     fetch(`http://localhost:${LOCAL_PORT}/animeData`, {
         method: "POST",
-        body: JSON.stringify({ animeTitle: animeName, episodeNumber: episodeNumber, episodeURL: url }),
+        body: animeDataJSON,
         headers: {
             "Content-Type": "application/json",
         }
