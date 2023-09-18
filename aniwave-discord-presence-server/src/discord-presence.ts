@@ -6,7 +6,7 @@ function setPresenceAndScheduleReset({animeTitle, episodeNumber, episodeURL}) {
   console.log('Updating Discord presence...');
   rpc.setActivity({
     state: `${animeTitle} - EP${episodeNumber}`,
-    largeImageKey: 'kobeni_gang',
+    largeImageKey: 'aniwave_image',
     startTimestamp: new Date(),
     buttons: [
       { label: 'Watch Along!', url: episodeURL }
