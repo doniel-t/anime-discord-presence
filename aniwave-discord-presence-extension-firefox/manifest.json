@@ -33,9 +33,7 @@
         "https://aniwave.to/watch/*",
         "https://stackoverflow.com/*"
       ],
-      "js": [
-        "src/fetchAnimeName.js"
-      ]
+      "js": ["src/getAnimeMetadata.js", "src/handleMetadataPost.js", "src/handleUpdateLoop.js"]
     }
   ]
 }
