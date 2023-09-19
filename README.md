@@ -10,7 +10,7 @@ Updates your rich presence to what Anime / Episode you are currently watching �
 ![image](https://github.com/doniel-t/aniwave-discord-presence/assets/56281274/91fa23b7-9905-46a5-b617-52dae1cfa046)
 
 ## **How To Run** ⚙️
-- Unzip extension, install in your Browser via drag and drop
+- Download the corresponding Extension for your Browser from the Releases Tab and install it in your Browser - Chrome Extension works for all Chromium based Browsers like Edge, Chrome, Opera...
 - clone repo `git clone https://github.com/doniel-t/aniwave-discord-presence.git`
 - install [NodeJS](https://nodejs.org/en) on your machine
 - create a Discord Application [here](https://discord.com/developers/applications) - the Application name will be what you are "playing on Discord" for example `Playing Anime`
