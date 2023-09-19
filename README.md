@@ -1,5 +1,11 @@
-# Aniwave Discord Rich Presence Chrome Extension
-Updates your rich presence to what Anime and what episode you are currently watching 👀
+# Aniwave Discord Rich Presence Chrome Extension 🚀
+Updates your rich presence to what Anime / Episode you are currently watching 👀\
+\
+![image](https://img.shields.io/github/languages/top/doniel-t/aniwave-discord-presence)
+![GitHub language count](https://img.shields.io/github/languages/count/doniel-t/aniwave-discord-presence?color=%23FF0A52)
+![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/doniel-t/aniwave-discord-presence)
+![GitHub](https://img.shields.io/github/license/doniel-t/aniwave-discord-presence)
+
 
 ![image](https://github.com/doniel-t/aniwave-discord-presence/assets/56281274/91fa23b7-9905-46a5-b617-52dae1cfa046)
 
@@ -11,5 +17,6 @@ Updates your rich presence to what Anime and what episode you are currently watc
 - create a file called .env in the `server` directory of the repo
 - write `CLIENT_ID=<your client id from the Discord Application>` into the .env file, you can find the CLIENT_ID as the Application ID in the Discord Dev portal or you can go to OAuth2 in the Dev Portal and get the ClientID from there
 - run `npm i` in the server directory and run the server with `npm run dev`
+- ---
+- `optional` change the CD directory of the startup script to the path where the server directory lies, and add the script to windows task scheduler
 
-### I recommend creating a startup script for the Server because once you do this you should never have to touch this again
