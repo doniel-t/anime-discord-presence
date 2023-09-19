@@ -4,6 +4,10 @@ const LOCAL_PORT = 42069;
 const LOCAL_URL = "http://localhost";
 const LOCAL_ENDPOINT = "animeData";
 
+//cache url to check for changes
+let url = window.location.href;
+
+
 function postMetadata(animeDataJSON) {
     fetch(`${LOCAL_URL}:${LOCAL_PORT}/${LOCAL_ENDPOINT}`, {
         method: "POST",
