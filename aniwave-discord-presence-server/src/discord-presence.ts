@@ -3,18 +3,27 @@ import { Client } from 'discord-rpc';
 const rpc = new Client({ transport: 'ipc' });
 let timeoutID: NodeJS.Timeout | undefined = undefined;
 
-function setPresenceAndScheduleReset({animeTitle, episodeNumber, episodeURL, imageURL}) {
+function setPresenceAndScheduleReset({animeName, episodeNumber, episodeURL, imageURL}) {
   if (timeoutID) {
     clearTimeout(timeoutID);
     timeoutID = undefined;
   }
   console.log('Updating Discord presence...');
+  console.log({animeName, episodeNumber, episodeURL, imageURL});
+  if(!episodeURL){
+    rpc.setActivity({
+      state: `${animeName} - EP${episodeNumber}`,
+      largeImageKey: imageURL,
+      startTimestamp: new Date(),
+    });
+  }
+
   rpc.setActivity({
-    state: `${animeTitle} - EP${episodeNumber}`,
+    state: `${animeName} - EP${episodeNumber}`,
     largeImageKey: imageURL,
     startTimestamp: new Date(),
     buttons: [
-      { label: 'Watch Along!', url: episodeURL }
+      { label: 'Watch Along!', url: episodeURL ?? "" }
     ]
   });
 
