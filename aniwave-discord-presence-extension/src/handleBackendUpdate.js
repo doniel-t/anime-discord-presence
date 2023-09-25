@@ -14,6 +14,16 @@ const animeDataFetcher = {
     },
 
 
+    getDuration() {
+        try {
+            const duration = document.getElementsByClassName("meta")[2].children[1].innerText.split(" ")[1];
+            return parseInt(duration); 
+        }catch {
+            //typical anime episode duration
+            return 23;
+        }
+    },
+
     getAnimeThumbnail() {
         try {
             const classNames = "poster";
@@ -38,10 +48,14 @@ const animeDataFetcher = {
 
     queryAnimeMetadata() {
         return {
-            animeName: this.getAnimeName(),
-            episodeNumber: this.getEpisodeNumber(),
-            episodeURL: window.location.href,
-            imageURL: this.getAnimeThumbnail()
+            title: this.getAnimeName(),
+            imageURL: this.getAnimeThumbnail(),
+            options: {
+                episodeNumber: this.getEpisodeNumber(),
+                buttonURL: window.location.href,
+                buttonLabel: "Watch Along!",
+                timeoutInMinutes: this.getDuration(),
+            },
         };
     },
 }

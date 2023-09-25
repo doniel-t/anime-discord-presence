@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
-import { rpc, setPresenceAndScheduleReset } from "./discord-presence";
+import { resetPresence, rpc, setPresenceAndScheduleReset, PresenceOptions } from "./discord-presence";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -12,18 +12,31 @@ app.use(cors());
 
 const port = 42069;
 
-type AnimeRequestBody = {
-  animeName: string;
-  episodeNumber: string;
-  episodeURL: string;
+type RequestBody = {
+  title: string;
   imageURL: string;
+  options?: PresenceOptions;
 };
 
 app.post("/animeData", (req: Request, res: Response) => {
-  const animeData: AnimeRequestBody = req.body;
-  console.log(`${animeData.animeName} - ${animeData.episodeNumber}`);
-  setPresenceAndScheduleReset(animeData);
-  res.json({ message: `Got ${animeData.animeName}!}`, status: 200 });
+  const presenceData: RequestBody = req.body;
+  function fixTitle(title: string, episodeNumber: number | undefined) {
+    if (episodeNumber) title = `${title} - EP ${episodeNumber}`;
+
+    if (title.length > 50) {
+      return title.slice(0, 50) + "...";
+    }
+    return title;
+  }
+
+  const fixedTitle = fixTitle(presenceData.title, presenceData.options?.episodeNumber);
+  setPresenceAndScheduleReset(fixedTitle, presenceData.imageURL, presenceData.options);
+  res.json({ message: `Got ${presenceData.title}!}`, status: 200 });
+});
+
+app.get("/clear", (req: Request, res: Response) => {
+  resetPresence();
+  res.json({ message: "Cleared presence!", status: 200 });
 });
 
 app.listen(port, () => {
@@ -34,4 +47,9 @@ rpc.on("ready", () => {
   console.log("Connected to Discord RPC");
 });
 
-rpc.login({ clientId }).catch(console.error);
+rpc.login({ clientId })
+  .catch(async (err) => {
+    console.error(err);
+    await new Promise((resolve) => setTimeout(resolve, 5 * 1000));
+    rpc.login({ clientId });
+  });
