@@ -17,7 +17,9 @@ const animeDataFetcher = {
     getDuration() {
         try {
             const duration = document.getElementsByClassName("meta")[2].children[1].innerText.split(" ")[1];
-            return parseInt(duration); 
+            const parsed = parseInt(duration);
+            if (!parsed) throw new Error("Duration not found");
+            return parsed; 
         }catch {
             //typical anime episode duration
             return 23;

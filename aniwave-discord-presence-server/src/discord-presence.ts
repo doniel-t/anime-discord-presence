@@ -17,6 +17,8 @@ function setPresenceAndScheduleReset(
 ) {
   // Clear the timeout if it exists
   handleTimout();
+  console.log(`timeout: ${options?.timeoutInMinutes}`);
+  const timeoutInMinutes = options?.timeoutInMinutes || 23;
   console.log("🚀 Updating Discord presence...");
   console.table({ title, imageURL, options });
   const buttons = [
@@ -35,7 +37,7 @@ function setPresenceAndScheduleReset(
   });
 
   if (options.timeoutInMinutes) {
-    timeoutID = setTimeout(resetPresence, options.timeoutInMinutes * 60 * 1000);
+    timeoutID = setTimeout(resetPresence, timeoutInMinutes * 60 * 1000);
   }
 }
 
