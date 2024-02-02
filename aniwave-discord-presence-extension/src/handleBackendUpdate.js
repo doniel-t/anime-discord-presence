@@ -4,7 +4,7 @@ import { getKickassAnimeTitle, getKickassAnimeImageURL, getKickassAnimeEpisodeNu
 
 const LOCAL_PORT = 42069;
 const LOCAL_URL = "http://localhost";
-const LOCAL_ENDPOINT = "animeData";
+const LOCAL_ENDPOINT = "/animeData";
 
 const PAGE_LOAD_DELAY_MS = 10 * 1000;
 const DISCORD_RPC_INTERVAL_MS = 1000;
@@ -15,8 +15,10 @@ const TIMEOUT_IN_MINUTES_KEY = "timeoutInMinutes";
 
 const SUPPORTED_WEBSITES = ["aniwave.to/watch", "kickassanime.mx"];
 
+
 //cache url to check for changes
 let url = window.location.href;
+
 
 const metadataQueryFunctionsMap = {
     "aniwave": {
@@ -37,47 +39,52 @@ async function queryAnimeMetadata(website) {
     //wait for page to load, eg for the image to hydrate
     await new Promise(r => setTimeout(r, PAGE_LOAD_DELAY_MS));
 
-    const metadata = {};
     const metadataQueryFuncs = metadataQueryFunctionsMap[website];
-
-    metadata[TITLE_KEY] = metadataQueryFuncs[TITLE_KEY]();
-    metadata[IMAGE_URL_KEY] = metadataQueryFuncs[IMAGE_URL_KEY]();
-    metadata["options"] = {};
-    metadata["options"][EPISODE_NUMBER_KEY] = metadataQueryFuncs[EPISODE_NUMBER_KEY]();
-    metadata["options"][TIMEOUT_IN_MINUTES_KEY] = metadataQueryFuncs[TIMEOUT_IN_MINUTES_KEY]();
-    metadata["options"]["buttonURL"] = url;
-    metadata["options"]["buttonLabel"] = "Watch along!";
+    const metadata = {
+        [TITLE_KEY]: metadataQueryFuncs[TITLE_KEY](),
+        [IMAGE_URL_KEY]: metadataQueryFuncs[IMAGE_URL_KEY](),
+        "options": {
+            [EPISODE_NUMBER_KEY]: metadataQueryFuncs[EPISODE_NUMBER_KEY](),
+            [TIMEOUT_IN_MINUTES_KEY]: metadataQueryFuncs[TIMEOUT_IN_MINUTES_KEY](),
+            "buttonURL": url,
+            "buttonLabel": "Watch along!",
+        }
+    };
 
     console.log({ metadata })
     return metadata;
 }
 
 
-function postMetadata(animeDataJSON) {
-    fetch(`${LOCAL_URL}:${LOCAL_PORT}/${LOCAL_ENDPOINT}`, {
+async function postMetadata(animeDataJSON) {
+    const res = await fetch(`${LOCAL_URL}:${LOCAL_PORT}${LOCAL_ENDPOINT}`, {
         method: "POST",
         body: animeDataJSON,
         headers: {
             "Content-Type": "application/json",
         }
-    }).then((res) => {
-        if (!res.ok) throw new Error(`Response not ok, status: ${res.status}`);
-        console.log(res);
-    }).catch((err) => {
-        console.log("Error sending anime name to local server")
-        console.log(err);
     });
+
+    if(!res.ok) throw new Error(`Response not ok, status: ${res.status}`);
 };
+
+
+function isValidPayload(metadataPayload) {
+    return metadataPayload.title && metadataPayload.imageURL;
+}
+
 
 async function postAnimeMetadataToBackend(websiteString) {
     const animeDataObj = await queryAnimeMetadata(websiteString);
+
     if (!isValidPayload(animeDataObj)) {
         console.log("Invalid payload, not sending to backend");
         return;
     }
+
     const animeDataJSON = JSON.stringify(animeDataObj);
     console.log(`Got: ${animeDataJSON}`);
-    postMetadata(animeDataJSON);
+    await postMetadata(animeDataJSON);
 };
 
 
@@ -89,11 +96,6 @@ async function postMetadataOnURLChange(websiteString) {
         await postAnimeMetadataToBackend(websiteString);
     }
 };
-
-
-function isValidPayload(metadataPayload) {
-    return metadataPayload.title && metadataPayload.imageURL;
-}
 
 
 (async () => {
