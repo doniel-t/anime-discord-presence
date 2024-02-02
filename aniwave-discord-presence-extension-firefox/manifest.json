@@ -33,7 +33,7 @@
         "https://aniwave.to/watch/*",
         "https://kickassanime.mx/*"
       ],
-      "js": ["src/handleBackendUpdate.js"]
+      "js": ["dist/index.js"]
     }
   ]
 }

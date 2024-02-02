@@ -1,4 +1,4 @@
-# Aniwave Discord Rich Presence Chrome Extension 🚀
+# Aniwave / Kickassanime Discord Rich Presence Chrome Extension 🚀
 Updates your rich presence to what Anime / Episode you are currently watching 👀\
 \
 ![image](https://img.shields.io/github/languages/top/doniel-t/aniwave-discord-presence)
@@ -20,3 +20,18 @@ Updates your rich presence to what Anime / Episode you are currently watching �
 - ---
 - `optional` change the CD directory of the startup script to the path where the server directory lies, and add the script to windows task scheduler
 
+
+## **How to Develop** 🤗
+- ## Chrome
+  - Make changes then 
+  - Create the bundled dist/index.js with `npm run build`
+  - pack the extension in [chrome](chrome://extensions) or create extensions from unpacked and select the directory
+
+  - [Chrome extensions API ref sheet](https://developer.chrome.com/docs/extensions/reference/api)
+
+- ## Firefox
+  - After you've made changes to firefox extension
+  - run `npm run build` to create the bundled dist/index.js file
+  - run `web-ext build` to create the zip file for the extensions
+  - install it in **Firefox nightly** or the **dev versions** 
+  - [Firefox extensions API ref sheet](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension)
