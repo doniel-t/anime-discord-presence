@@ -24,7 +24,7 @@
     },
     "content_scripts": [
       {
-        "matches": ["https://aniwave.to/watch/*"],
+        "matches": ["https://aniwave.to/watch/*", "https://kickassanime.mx/*"],
         "js": ["src/handleBackendUpdate.js"]
       }
     ]
