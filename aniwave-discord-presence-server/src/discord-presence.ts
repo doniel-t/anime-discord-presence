@@ -32,6 +32,7 @@ function setPresenceAndScheduleReset(
   rpc.setActivity({
     state: title,
     largeImageKey: imageURL,
+    largeImageText: title,
     startTimestamp: new Date(),
     buttons,
   });
