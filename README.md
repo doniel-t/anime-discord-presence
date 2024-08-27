@@ -1,4 +1,4 @@
-# Aniwave / Kickassanime Discord Rich Presence Chrome Extension 🚀
+# Kickassanime Discord Rich Presence Chrome Extension 🚀
 Updates your rich presence to what Anime / Episode you are currently watching 👀\
 \
 ![image](https://img.shields.io/github/languages/top/doniel-t/aniwave-discord-presence)
