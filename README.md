@@ -13,13 +13,18 @@ Updates your rich presence to what Anime / Episode you are currently watching ðŸ
 - Download the corresponding Extension for your Browser from the Releases Tab and install it in your Browser - Chrome Extension works for all Chromium based Browsers like Edge, Chrome, Opera...
 - clone repo `git clone https://github.com/doniel-t/aniwave-discord-presence.git`
 - install [NodeJS](https://nodejs.org/en) on your machine
-- open a terminal in the `aniwave-discord-presence-server` directory and
-- run `npm i` in the server directory and run the server with `npm run dev`
+- Download the RPC-Server binary from the Releases Tab and run it
 - ---
-- `optional` change the CD directory of the startup script to the path where the server directory lies, and add the script to windows task scheduler
-
+- `optional` schedule the Server binary to run on launch
 
 ## **How to Develop** ðŸ¤—
+- ## Server
+  - Make changes
+  - Test with `npm run dev`
+  - Bundle the app with `npm run build`
+  - Compile to executable with `npm run compile_to_exe`
+    - You can change the target for your own OS 
+
 - ## Chrome
   - Make changes then 
   - Create the bundled dist/index.js with `npm run build`
