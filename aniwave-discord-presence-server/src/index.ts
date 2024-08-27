@@ -1,10 +1,8 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import { resetPresence, rpc, setPresenceAndScheduleReset, PresenceOptions } from "./discord-presence";
-import * as dotenv from "dotenv";
-dotenv.config();
 
-const clientId = `${process.env.CLIENT_ID}`;
+const clientId = `1153153718099906602`;
 
 const app: Express = express();
 app.use(express.json());
@@ -37,6 +35,14 @@ app.post("/animeData", (req: Request, res: Response) => {
 app.get("/clear", (req: Request, res: Response) => {
   resetPresence();
   res.json({ message: "Cleared presence!", status: 200 });
+});
+
+app.post("/log", (req: Request, res: Response) => {
+
+  const message = req.body.message;
+  console.log(`🐛 [DEBUG]: ${message}`);
+
+  res.json({ message: "Logged!", status: 200 });
 });
 
 app.listen(port, () => {

@@ -13,8 +13,6 @@ const IMAGE_URL_KEY = "imageURL";
 const EPISODE_NUMBER_KEY = "episodeNumber";
 const TIMEOUT_IN_MINUTES_KEY = "timeoutInMinutes";
 
-const SUPPORTED_WEBSITES = ["aniwave.to/watch", "kickassanime.mx"];
-
 
 //cache url to check for changes
 let url = window.location.href;
@@ -65,7 +63,7 @@ async function postMetadata(animeDataJSON) {
         }
     });
 
-    if(!res.ok) throw new Error(`Response not ok, status: ${res.status}`);
+    if (!res.ok) throw new Error(`Response not ok, status: ${res.status}`);
 };
 
 
@@ -73,8 +71,32 @@ function isValidPayload(metadataPayload) {
     return metadataPayload.title && metadataPayload.imageURL;
 }
 
+async function logToServer(message) {
+    const res = await fetch(`${LOCAL_URL}:${LOCAL_PORT}/log`, {
+        method: "POST",
+        body: JSON.stringify({ message: message }),
+        headers: {
+            "Content-Type": "application/json",
+        }
+    });
+
+    if (!res.ok) throw new Error(`Response not ok, status: ${res.status}`);
+}
+
+function isContentSite() {
+    const urlToCheck = window.location.href;
+    const urlSplits = urlToCheck.split("/");
+    const lastElement = urlSplits.at(-1);
+    const hasTrailingID = lastElement !== '' && lastElement.length > 0;
+
+    return hasTrailingID;
+}
 
 async function postAnimeMetadataToBackend(websiteString) {
+    if (!isContentSite()) {
+        console.log("Not a content site, not sending to backend");
+        return;
+    }
     const animeDataObj = await queryAnimeMetadata(websiteString);
 
     if (!isValidPayload(animeDataObj)) {
@@ -90,7 +112,7 @@ async function postAnimeMetadataToBackend(websiteString) {
 
 async function postMetadataOnURLChange(websiteString) {
     const urlChanged = url !== window.location.href;
-    const isWantedSite = ["https://aniwave.to/watch", "https://kickassanime.mx/"].some(site => window.location.href.includes(site));
+    const isWantedSite = window.location.href.includes(websiteString);
     if (urlChanged && isWantedSite) {
         url = window.location.href;
         await postAnimeMetadataToBackend(websiteString);
@@ -99,14 +121,11 @@ async function postMetadataOnURLChange(websiteString) {
 
 
 (async () => {
-    SUPPORTED_WEBSITES.forEach(async (siteURL) => {
-        if (url.includes(siteURL)) {
-            const website = siteURL.split(".")[0];
-            //on initial page load
-            await postAnimeMetadataToBackend(website);
+    const website = url.split(".")[1];
+    await logToServer(`Website: ${website}`);
+    //on initial page load
+    await postAnimeMetadataToBackend(website);
 
-            //check if episode changed
-            setInterval(async () => await postMetadataOnURLChange(website), DISCORD_RPC_INTERVAL_MS);
-        }
-    });
+    //check if episode changed
+    setInterval(async () => await postMetadataOnURLChange(website), DISCORD_RPC_INTERVAL_MS);
 })()

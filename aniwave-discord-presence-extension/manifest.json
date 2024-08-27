@@ -11,9 +11,7 @@
       "service_worker": "src/background.js"
     },
     "permissions": [
-      "activeTab",
-      "http://localhost/*",
-      "https://aniwave.to/*"
+      "activeTab"
     ],
     "action" : {
       "default_popup": "src/index.html",
@@ -22,9 +20,14 @@
         "48": "assets/32.png"
       }
     },
+    "host_permissions": [
+      "https://*.kickassanime.mx/*",
+      "https://*.kickassanime.com/*",
+      "https://aniwave.to/watch/*"
+    ],
     "content_scripts": [
       {
-        "matches": ["https://aniwave.to/watch/*", "https://kickassanime.mx/*"],
+        "matches": ["https://aniwave.to/watch/*", "https://*.kickassanime.mx/*", "https://*.kickassanime.com/*"],
         "js": ["dist/index.js"]
       }
     ]

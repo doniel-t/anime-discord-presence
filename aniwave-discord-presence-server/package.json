@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx ts-node src/index.ts"
+    "dev": "npx ts-node src/index.ts",
+    "build": "esbuild src/index.ts --bundle --platform=node --format=cjs --outfile=dist/index.cjs",
+    "compile_to_exe": "pkg dist/index.cjs --output dist/aniwave-dc-presence-server.exe --targets node16-win-x64"
   },
   "author": "",
   "license": "ISC",
@@ -13,7 +15,8 @@
     "cors": "^2.8.5",
     "discord-rpc": "^4.0.1",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "nexe": "^4.0.0-rc.6"
   },
   "devDependencies": {
     "@types/discord-rpc": "^4.0.5",

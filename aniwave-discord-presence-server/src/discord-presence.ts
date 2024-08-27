@@ -17,24 +17,29 @@ function setPresenceAndScheduleReset(
 ) {
   // Clear the timeout if it exists
   handleTimout();
-  console.log(`timeout: ${options?.timeoutInMinutes}`);
+  console.log(`[Timeout]: ${options?.timeoutInMinutes}`);
   const timeoutInMinutes = options?.timeoutInMinutes || 23;
   console.log("🚀 Updating Discord presence...");
   console.table({ title, imageURL, options });
+  const hasURLToEpisode = options?.buttonURL && options?.buttonLabel;
+
   const buttons = [
-    {
-      label: options?.buttonLabel ?? "Suffer Along!",
-      url: options?.buttonURL ?? "",
-    },
     { label: "Clear Presence", url: "http://localhost:42069/clear" },
   ];
+
+  if(hasURLToEpisode) {
+    buttons.push({
+      label: options?.buttonLabel || "Watch Along!",
+      url: options?.buttonURL || "",
+    });
+  }
 
   rpc.setActivity({
     state: title,
     largeImageKey: imageURL,
     largeImageText: title,
     startTimestamp: new Date(),
-    buttons,
+    buttons: buttons,
   });
 
   if (options.timeoutInMinutes) {
