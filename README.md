@@ -11,7 +11,6 @@ Updates your rich presence to what Anime / Episode you are currently watching �
 
 ## **How To Run** ⚙️
 - Download the corresponding Extension for your Browser from the Releases Tab and install it in your Browser - Chrome Extension works for all Chromium based Browsers like Edge, Chrome, Opera...
-- clone repo `git clone https://github.com/doniel-t/aniwave-discord-presence.git`
 - install [NodeJS](https://nodejs.org/en) on your machine
 - Download the RPC-Server binary from the Releases Tab and run it
 - ---
