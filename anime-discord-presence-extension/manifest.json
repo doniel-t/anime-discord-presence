@@ -24,11 +24,12 @@
     "host_permissions": [
       "https://*.kickassanime.mx/*",
       "https://*.kickassanime.com/*",
+      "https://9animetv.to/*",
       "https://aniwave.to/watch/*"
     ],
     "content_scripts": [
       {
-        "matches": ["https://aniwave.to/watch/*", "https://*.kickassanime.mx/*", "https://*.kickassanime.com/*"],
+        "matches": ["https://aniwave.to/watch/*", "https://*.kickassanime.mx/*", "https://*.kickassanime.com/*", "https://9animetv.to/*"],
         "js": ["dist/index.js"]
       }
     ]

@@ -1,5 +1,6 @@
 import { getAniwaveAnimeName, getAniwaveThumbnail, getAniwaveEpisodeNumber, getAniwaveDuration } from "./utils/aniwave";
 import { getKickassAnimeTitle, getKickassAnimeImageURL, getKickassAnimeEpisodeNumber, getKickassAnimeDuration } from "./utils/kickassanime";
+import { get9AnimeName, get9AnimeDuration, get9AnimeThumbnail, get9AnimeEpisodeNumber } from "./utils/9anime";
 
 
 const LOCAL_PORT = 42069;
@@ -13,6 +14,7 @@ const IMAGE_URL_KEY = "imageURL";
 const EPISODE_NUMBER_KEY = "episodeNumber";
 const TIMEOUT_IN_MINUTES_KEY = "timeoutInMinutes";
 
+const SUPPORTED_WEBSITES = ["aniwave", "kickassanime", "9anime"];
 
 //cache url to check for changes
 let url = window.location.href;
@@ -30,6 +32,12 @@ const metadataQueryFunctionsMap = {
         [IMAGE_URL_KEY]: getKickassAnimeImageURL,
         [EPISODE_NUMBER_KEY]: getKickassAnimeEpisodeNumber,
         [TIMEOUT_IN_MINUTES_KEY]: getKickassAnimeDuration,
+    },
+    "9anime": {
+        [TITLE_KEY]: get9AnimeName,
+        [IMAGE_URL_KEY]: get9AnimeThumbnail,
+        [EPISODE_NUMBER_KEY]: get9AnimeEpisodeNumber,
+        [TIMEOUT_IN_MINUTES_KEY]: get9AnimeDuration,
     }
 }
 
@@ -119,16 +127,13 @@ async function postMetadataOnURLChange(websiteString) {
     }
 };
 
-async function clearActivity() {
-    const res = await fetch(`${LOCAL_URL}:${LOCAL_PORT}/clear`, {
-        method: "GET",
-    });
 
-    if (!res.ok) throw new Error(`Response not ok when clearing activity, status: ${res.status}`);
+function extractFirstFitFromURL(url, words) {
+    return words.find(word => url.includes(word));
 }
 
 (async () => {
-    const animeWebsite = url.split(".")[1];
+    const animeWebsite = extractFirstFitFromURL(url, SUPPORTED_WEBSITES);
     await logToServer(`Website: ${animeWebsite}`);
     //on initial page load
     await postAnimeMetadataToBackend(animeWebsite);
