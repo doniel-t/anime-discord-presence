@@ -27,7 +27,7 @@ function setPresenceAndScheduleReset(
     { label: "Clear Presence", url: "http://localhost:42069/clear" },
   ];
 
-  if(hasURLToEpisode) {
+  if (hasURLToEpisode) {
     buttons.push({
       label: options?.buttonLabel || "Watch Along!",
       url: options?.buttonURL || "",
@@ -65,4 +65,3 @@ function handleTimout() {
 }
 
 export { rpc, setPresenceAndScheduleReset, resetPresence };
-

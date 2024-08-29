@@ -119,13 +119,20 @@ async function postMetadataOnURLChange(websiteString) {
     }
 };
 
+async function clearActivity() {
+    const res = await fetch(`${LOCAL_URL}:${LOCAL_PORT}/clear`, {
+        method: "GET",
+    });
+
+    if (!res.ok) throw new Error(`Response not ok when clearing activity, status: ${res.status}`);
+}
 
 (async () => {
-    const website = url.split(".")[1];
-    await logToServer(`Website: ${website}`);
+    const animeWebsite = url.split(".")[1];
+    await logToServer(`Website: ${animeWebsite}`);
     //on initial page load
-    await postAnimeMetadataToBackend(website);
+    await postAnimeMetadataToBackend(animeWebsite);
 
     //check if episode changed
-    setInterval(async () => await postMetadataOnURLChange(website), DISCORD_RPC_INTERVAL_MS);
+    setInterval(async () => await postMetadataOnURLChange(animeWebsite), DISCORD_RPC_INTERVAL_MS);
 })()
